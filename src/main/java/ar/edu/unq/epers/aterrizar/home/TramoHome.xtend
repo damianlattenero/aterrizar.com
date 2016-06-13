@@ -25,6 +25,19 @@ class TramoHome extends BaseService {
         query.list as List<Asiento>
 
     }
+	
+	def getTramosConDestino(String nombreUsuario, String destino) {
+		var q = "select asientos from Tramo tramo join tramo.asientos as asientos where asientos.reservadoPorUsuario != null and tramo.destino = :destino"
+		
+        var query = SessionManager.getSession().createQuery(q) as Query
+		query.setString("destino", destino)
+        var asientosNoNull = query.list as List<Asiento>
+        
+        var asientos = asientosNoNull.filter[ asiento | asiento.reservadoPorUsuario.nombreDeUsuario == nombreUsuario].toList
+        //asientos.filter[asiento | asiento.reservadoPorUsuario == null].toList
+        return asientos
+		
+	}
 
 
 

@@ -82,6 +82,7 @@ class Perfil {
 	def deleteDestinations(Visibility v) {
 		var destinationsAux = new ArrayList<Destiny>
 		for(Destiny d : destinations) {
+			//if(!(d.visibility.toString == v.toString)) destinationsAux.add(d)
 			if(!(d.visibility.toString == v.toString)) destinationsAux.add(d)
 		}
 			destinations = destinationsAux

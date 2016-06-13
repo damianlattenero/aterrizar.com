@@ -5,6 +5,8 @@ import ar.edu.unq.epers.aterrizar.home.TramoHome
 import ar.edu.unq.epers.aterrizar.model.Tramo
 import ar.edu.unq.epers.aterrizar.model.VueloOfertado
 import java.util.List
+import ar.edu.unq.epers.aterrizar.model.Usuario
+import ar.edu.unq.epers.aterrizar.model.Destiny
 
 /**
  * Created by damian on 4/16/16.
@@ -36,6 +38,16 @@ class TramoService extends BaseService{
             new TramoHome().asientosDisponiblesEnTramo(tramo)
         ]);
     }
+	
+	def tieneReservadoAsiento(Usuario usuario, Destiny destiny) {
+		SessionManager.runInSession([
+            val tramoHome = new TramoHome()
+            var listaAsientos = tramoHome.getTramosConDestino(usuario.nombreDeUsuario, destiny.nombre)
+            listaAsientos.size > 0
+            
+        ])
+		
+	}
 
 
 
