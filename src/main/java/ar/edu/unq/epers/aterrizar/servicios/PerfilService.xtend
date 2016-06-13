@@ -3,22 +3,24 @@ package ar.edu.unq.epers.aterrizar.servicios
 import ar.edu.unq.epers.aterrizar.home.MongoHome
 import ar.edu.unq.epers.aterrizar.model.Usuario
 import ar.edu.unq.epers.aterrizar.model.Destiny
-import org.mongojack.DBQuery
 import ar.edu.unq.epers.aterrizar.model.Visibility
 import ar.edu.unq.epers.aterrizar.model.Comment
 import ar.edu.unq.epers.aterrizar.model.Perfil
 import java.util.ArrayList
 import ar.edu.unq.epers.aterrizar.model.Like
 import ar.edu.unq.epers.aterrizar.model.Dislike
+import ar.edu.unq.epers.aterrizar.exceptions.UsuarioNoTieneAsientoEnDestinoException
 
 class PerfilService {
 	MongoHome<Perfil> perfilHome
 	SocialNetworkingService networkService
+	TramoService tramoService
 	
 
-	new(MongoHome<Perfil> c, SocialNetworkingService networkService) {
+	new(MongoHome<Perfil> c, SocialNetworkingService networkService, TramoService tramoService) {
 		this.perfilHome = c
 		this.networkService = networkService
+		this.tramoService = tramoService 
 	}
 	
 	def Perfil getPerfil(Usuario u) {
@@ -34,7 +36,8 @@ class PerfilService {
 	
 	def void addDestiny(Usuario u, Destiny d) {
 		var u_perfil = getPerfil(u)
-		u_perfil.addDestiny(d)
+		if(tramoService.tieneReservadoAsiento(u, d)) u_perfil.addDestiny(d)
+		else new UsuarioNoTieneAsientoEnDestinoException
 		perfilHome.updatePerfil(u_perfil, u_perfil)		
 	}
 	

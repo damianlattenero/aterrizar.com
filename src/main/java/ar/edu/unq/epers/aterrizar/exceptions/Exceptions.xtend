@@ -10,6 +10,7 @@ class ContraseniaIgualALaAnteriorException extends Exception{}
 class ContraseniaIncorrectaException extends Exception{}
 class EnviarMailException extends Exception{}
 class NoHayAsientoConEsaIdException extends Exception{}
+class UsuarioNoTieneAsientoEnDestinoException extends Exception{}
 
 class AsientoReservadoException extends RuntimeException{
     new(String message){
