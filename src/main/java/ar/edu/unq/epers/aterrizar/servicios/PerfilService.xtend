@@ -10,6 +10,7 @@ import java.util.ArrayList
 import ar.edu.unq.epers.aterrizar.model.Like
 import ar.edu.unq.epers.aterrizar.model.Dislike
 import ar.edu.unq.epers.aterrizar.exceptions.UsuarioNoTieneAsientoEnDestinoException
+import ar.edu.unq.epers.aterrizar.exceptions.UsuarioNoTienePermisoParaMGoNMGException
 
 class PerfilService {
 	MongoHome<Perfil> perfilHome
@@ -50,16 +51,16 @@ class PerfilService {
 	def void addlike(Usuario u, Destiny d) {
 		var u_perfil = getPerfil(u)
 		var like = new Like(u_perfil.username)
-		if(puedeAgregarLike(u, d)) u_perfil.addLike(d, like, u)
-		else new UsuarioNoTienePermisoParaMGoNMG
+		if(d.puedoAgregarLikeODislike(u)) u_perfil.addLike(d, like, u)
+		else new UsuarioNoTienePermisoParaMGoNMGException
 		perfilHome.updatePerfil(u_perfil, u_perfil)
 	}
 
 	def void addDislike(Usuario u, Destiny d) {
 		var u_perfil = getPerfil(u)
 		var dislike = new Dislike(u_perfil.username)
-		if(puedeAgregarDislike(u, d)) u_perfil.addDislike(d, dislike, u)
-		else new UsuarioNoTienePermisoParaMGoNMG
+		if(d.puedoAgregarLikeODislike(u)) u_perfil.addDislike(d, dislike, u)
+		else new UsuarioNoTienePermisoParaMGoNMGException
 		perfilHome.updatePerfil(u_perfil, u_perfil)
 	}
 	  

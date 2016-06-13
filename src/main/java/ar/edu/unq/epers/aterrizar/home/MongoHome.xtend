@@ -91,12 +91,17 @@ class MongoHome<T> {
 	def getMongoCollection() {
 		return mongoCollection;
 	}
-	
+	/* 
 	def stalkearAmigo(Usuario a_stalkear) {
 		var a_stalkear_perfil = this.getPerfil(a_stalkear)
 		a_stalkear_perfil.deleteComments(Visibility.PRIVADO)
 		a_stalkear_perfil.deleteDestinations(Visibility.PRIVADO)
 		a_stalkear_perfil
+	}
+	*/
+	
+	def stalkearAmigo(Usuario usuario) {
+		
 	}
 	
 	def stalkearNoAmigo(Usuario a_stalkear) {
