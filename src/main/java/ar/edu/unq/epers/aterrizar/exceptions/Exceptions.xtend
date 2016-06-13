@@ -11,8 +11,9 @@ class ContraseniaIncorrectaException extends Exception{}
 class EnviarMailException extends Exception{}
 class NoHayAsientoConEsaIdException extends Exception{}
 class UsuarioNoTieneAsientoEnDestinoException extends Exception{}
-
+class UsuarioNoTienePermisoParaMGoNMGException extends Exception{}
 class AsientoReservadoException extends RuntimeException{
+	
     new(String message){
         super(message)
     }

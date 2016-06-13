@@ -47,15 +47,19 @@ class PerfilService {
 		perfilHome.updatePerfil(u_perfil, u_perfil)
 	} 
 	
-	def void addlike(Usuario u, Destiny d, Like like) {
+	def void addlike(Usuario u, Destiny d) {
 		var u_perfil = getPerfil(u)
-		u_perfil.addLike(d, like, u)
+		var like = new Like(u_perfil.username)
+		if(puedeAgregarLike(u, d)) u_perfil.addLike(d, like, u)
+		else new UsuarioNoTienePermisoParaMGoNMG
 		perfilHome.updatePerfil(u_perfil, u_perfil)
 	}
 
-	def void addDislike(Usuario u, Destiny d, Dislike dislike) {
+	def void addDislike(Usuario u, Destiny d) {
 		var u_perfil = getPerfil(u)
-		u_perfil.addDislike(d, dislike, u)
+		var dislike = new Dislike(u_perfil.username)
+		if(puedeAgregarDislike(u, d)) u_perfil.addDislike(d, dislike, u)
+		else new UsuarioNoTienePermisoParaMGoNMG
 		perfilHome.updatePerfil(u_perfil, u_perfil)
 	}
 	  
