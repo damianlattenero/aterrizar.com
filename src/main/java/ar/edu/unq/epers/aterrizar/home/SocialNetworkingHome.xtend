@@ -40,14 +40,6 @@ class SocialNetworkingHome {
 		nodo.relationships.forEach[delete]
 		nodo.delete
 	}
-	def sonAmigos(Usuario miUser, Usuario anotherUser) {
-		var bool_friends = false
-		var my_friends = this.getFriends(miUser)
-		for(Usuario u : my_friends) {
-			bool_friends = bool_friends || miUser.id == anotherUser.id
-		}
-			bool_friends
-	}
 	
 	def crearNodo(Usuario usuario) {
 		var node = this.graph.createNode(userLabel)

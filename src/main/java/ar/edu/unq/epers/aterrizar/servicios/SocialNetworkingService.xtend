@@ -64,11 +64,12 @@ class SocialNetworkingService {
 		]
 	}
 	
-	def theyAreFriends(Usuario miUser, Usuario anotherUser) {
-		GraphServiceRunner::run[
-		val home = createHome(it)
-		home.sonAmigos(miUser, anotherUser)			
-		]	
+	
+	def boolean theyAreFriends(Usuario miUser, Usuario anotherUser) {
+		var sonAmigos = false
+		var misAmigos = this.friends(miUser)
+		for(Usuario u : misAmigos) sonAmigos = sonAmigos || u.nombreDeUsuario == anotherUser.nombreDeUsuario
+		return sonAmigos
 	}
 
 	def getSender(String nombreUsuario) {

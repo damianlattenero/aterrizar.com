@@ -77,10 +77,9 @@ class PerfilService {
 	}
 
 	def stalkear(Usuario miUsuario, Usuario aStalkear) {
-		//if(miUsuario.nombreDeUsuario == aStalkear.nombreDeUsuario) return this.getPerfil(aStalkear)
-		//if(networkService.theyAreFriends(miUsuario, aStalkear)) return perfilHome.stalkearAmigo(aStalkear)			
-		//else return perfilHome.stalkearNoAmigo(a_stalkear)
-		return perfilHome.stalkearAmigo(aStalkear)	
+		if(miUsuario.nombreDeUsuario == aStalkear.nombreDeUsuario) return this.getPerfil(aStalkear)
+		if(networkService.theyAreFriends(miUsuario, aStalkear)) return perfilHome.stalkearAmigo(aStalkear)			
+		else return perfilHome.stalkearNoAmigo(aStalkear)	
 	}
 	
 }
