@@ -50,7 +50,7 @@ class MongoHome<T> {
     def getPerfil(Usuario u) {
     	var query = DBQuery.is("username", u.nombreDeUsuario)
     	var perfiles = this.find(query)
-    	return perfiles.get(0) as Perfil
+    	return perfiles.get(0) 
     }
     
     
@@ -91,30 +91,25 @@ class MongoHome<T> {
 	def getMongoCollection() {
 		return mongoCollection;
 	}
-	/* 
-	def stalkearAmigo(Usuario a_stalkear) {
-		var a_stalkear_perfil = this.getPerfil(a_stalkear)
-		a_stalkear_perfil.deleteComments(Visibility.PRIVADO)
-		a_stalkear_perfil.deleteDestinations(Visibility.PRIVADO)
-		a_stalkear_perfil
-	}
-	*/
 	
-	def stalkearAmigo(Usuario usuario) {
+	def stalkearNoAmigo(Usuario user) {
+		var results = this.aggregate
+			.match("username", user.nombreDeUsuario)
+			.project
+			.filter("destinations")
+			.eq("visibility", "PUBLICO").aggregation 
+			.execute
+				return results.get(0) 
+	}
+	
+	def stalkearAmigo(Usuario user) {
+		var results = this.aggregate
+			.match("username", user.nombreDeUsuario)
+			.project
+			.filter("destinations") 
+			.or(#[ [it.eq("visibility", "PUBLICO")], [it.eq("visibility", "AMIGOS")] ])
+			.execute
+				return results.get(0) 
+	}
 		
-	}
-	
-	def stalkearNoAmigo(Usuario a_stalkear) {
-		var a_stalkear_perfil = this.getPerfil(a_stalkear)
-		a_stalkear_perfil.deleteComments(Visibility.PRIVADO)
-		a_stalkear_perfil.deleteComments(Visibility.AMIGOS)
-		a_stalkear_perfil.deleteDestinations(Visibility.PRIVADO)
-		a_stalkear_perfil.deleteDestinations(Visibility.AMIGOS)
-		a_stalkear_perfil
-	}
-	
-	def deleteComments(Perfil p, Visibility v) {
-		
-	}
-	
 }

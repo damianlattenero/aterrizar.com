@@ -9,7 +9,7 @@ import org.eclipse.xtext.xbase.lib.Functions.Function1
 import ar.edu.unq.epers.aterrizar.home.MongoHome
 import org.eclipse.xtend.lib.annotations.Accessors
 
-@Accessors
+
 class Aggregation<T> {
 	var Filter<T> matchFilter
 	var Filter<T> projection
@@ -45,6 +45,7 @@ class Aggregation<T> {
 	
 }
 
+@Accessors
 class Filter<T> {
 	var Aggregation<T> aggregation
 	var Map<String, Object> mapping = new HashMap
