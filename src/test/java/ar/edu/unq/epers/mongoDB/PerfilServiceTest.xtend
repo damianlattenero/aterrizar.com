@@ -16,6 +16,10 @@ import ar.edu.unq.epers.aterrizar.model.Like
 import ar.edu.unq.epers.aterrizar.model.Dislike
 import ar.edu.unq.epers.aterrizar.model.Visibility
 import ar.edu.unq.epers.aterrizar.servicios.TramoService
+import ar.edu.unq.epers.aterrizar.servicios.AsientoService
+import ar.edu.unq.epers.aterrizar.model.Asiento
+import ar.edu.unq.epers.aterrizar.model.Tramo
+import ar.edu.unq.epers.aterrizar.home.BaseHome
 
 class PerfilServiceTest {
 	PerfilService service
@@ -37,7 +41,10 @@ class PerfilServiceTest {
 	Visibility visibilityPrivado
 	Visibility visibilityPublico
 	Visibility visibilityAmigos
-	
+	AsientoService asientoService
+	BaseHome homeBase
+	Asiento asiento
+	Tramo tramo
 	
 	@Before
 	def void setUp() {
@@ -68,6 +75,11 @@ class PerfilServiceTest {
 		visibilityAmigos = Visibility.AMIGOS
 		queCalor = new Comment("que calor")
 		queAburrido = new Comment("que aburrido")
+		tramoService = new TramoService
+		asientoService = new AsientoService
+		asiento = new Asiento
+		tramo = new Tramo("Berazategui", "Mar del plata")
+		homeBase = new BaseHome
 	}
 	
 	@Test
@@ -83,6 +95,8 @@ class PerfilServiceTest {
 	@Test
 	def void addDestinyTest() {
 		service.addPerfil(usuarioPepe)
+		asientoService.guardar(asiento)
+		asientoService.reservarAsientoParaUsuario(asiento, usuarioPepe)
 		service.addDestiny(usuarioPepe, marDelPlataDestiny)
 		var perfilPepe = service.getPerfil(usuarioPepe)
 		Assert.assertEquals(perfilPepe.destinations.size, 1)
@@ -225,5 +239,7 @@ class PerfilServiceTest {
 	@After
 	def void cleanDB(){
 		home.mongoCollection.drop
+		homeBase.hqlTruncate('asiento')
+        homeBase.hqlTruncate('usuario')
 	}
 }
