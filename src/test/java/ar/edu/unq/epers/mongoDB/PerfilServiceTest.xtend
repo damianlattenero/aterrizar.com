@@ -21,7 +21,6 @@ import ar.edu.unq.epers.aterrizar.servicios.DocumentsServiceRunner
 import ar.edu.unq.epers.aterrizar.servicios.PerfilService
 import ar.edu.unq.epers.aterrizar.servicios.SocialNetworkingService
 import ar.edu.unq.epers.aterrizar.servicios.TramoService
-<<<<<<< HEAD
 import java.sql.Date
 import org.hibernate.SessionFactory
 import org.hibernate.classic.Session
@@ -29,12 +28,10 @@ import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-=======
 import ar.edu.unq.epers.aterrizar.servicios.AsientoService
 import ar.edu.unq.epers.aterrizar.model.Asiento
 import ar.edu.unq.epers.aterrizar.model.Tramo
 import ar.edu.unq.epers.aterrizar.home.BaseHome
->>>>>>> 66c4c64a28181c3602a8b16e6138829fdeb90010
 
 class PerfilServiceTest {
 	
@@ -68,7 +65,7 @@ class PerfilServiceTest {
 	
 	
 	/*  Hibernate   */
-	 var BaseHome homeBase
+	 
     var Usuario user
     var TramoService serviceTramo
     var AsientoService serviceAsiento
@@ -79,7 +76,6 @@ class PerfilServiceTest {
     Asiento asiento1
     Asiento asiento2
     Asiento asiento3
-    Tramo tramo
     Tramo tramo3
     VueloOfertado vuelo1
     VueloOfertado vuelo2
@@ -176,8 +172,10 @@ class PerfilServiceTest {
 		service = new PerfilService(home, socialService, tramoService)
 		usuarioPepe = new Usuario()
 		usuarioPepe.nombreDeUsuario = "pepe"
+		usuarioPepe.nombreYApellido = "pepe gonzales"
 		usuarioLuis = new Usuario()
 		usuarioLuis.nombreDeUsuario = "luis"
+		usuarioPepe.nombreYApellido = "luis Buggianessi"
 		usuarioJuanAmigoDeNadie = new Usuario()
 		usuarioJuanAmigoDeNadie.nombreDeUsuario = "juan"
 		marDelPlataDestiny = new Destiny()
