@@ -39,7 +39,7 @@ class PerfilService {
 		var perfil = getPerfil(u)
 		if(tramoService.tieneReservadoAsiento(u, d)) perfil.addDestiny(d)
 		else new UsuarioNoTieneAsientoEnDestinoException
-		perfilHome.updatePerfil(perfil, perfil)		
+		perfilHome.updatePerfil(perfil, perfil)
 	}
 	
 	def void addComment(Usuario u, Destiny d, Comment c) {
@@ -81,6 +81,9 @@ class PerfilService {
 		if(networkService.theyAreFriends(miUsuario, aStalkear)) return perfilHome.stalkearAmigo(aStalkear)			
 		else return perfilHome.stalkearNoAmigo(aStalkear)	
 	}
+	
+	
+	
 	
 }
 				

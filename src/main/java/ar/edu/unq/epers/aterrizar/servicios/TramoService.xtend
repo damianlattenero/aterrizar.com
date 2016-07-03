@@ -7,11 +7,21 @@ import ar.edu.unq.epers.aterrizar.model.VueloOfertado
 import java.util.List
 import ar.edu.unq.epers.aterrizar.model.Usuario
 import ar.edu.unq.epers.aterrizar.model.Destiny
+import ar.edu.unq.epers.aterrizar.home.BaseHome
+import org.hibernate.Session
+import org.hibernate.SessionFactory
+import ar.edu.unq.epers.aterrizar.model.Asiento
 
 /**
  * Created by damian on 4/16/16.
  */
 class TramoService extends BaseService{
+
+	
+	 
+	 
+	 
+	 
 
 
     def guardarTramosEnVuelo(VueloOfertado vuelo, Tramo... listaTramos){
