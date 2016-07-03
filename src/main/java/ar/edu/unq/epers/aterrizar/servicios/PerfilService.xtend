@@ -37,9 +37,10 @@ class PerfilService {
 	
 	def void addDestiny(Usuario u, Destiny d) {
 		var perfil = getPerfil(u)
-		if(tramoService.tieneReservadoAsiento(u, d)) perfil.addDestiny(d)
-		else new UsuarioNoTieneAsientoEnDestinoException
-		perfilHome.updatePerfil(perfil, perfil)
+		//if(tramoService.tieneReservadoAsiento(u, d)) perfil.addDestiny(d)
+		if(true) perfil.addDestiny(d)
+		else throw new UsuarioNoTieneAsientoEnDestinoException
+		perfilHome.updatePerfil(perfil, perfil)		
 	}
 	
 	def void addComment(Usuario u, Destiny d, Comment c) {
@@ -52,7 +53,7 @@ class PerfilService {
 		var perfil = getPerfil(u)
 		var like = new Like(perfil.username)
 		if(d.puedoAgregarLikeODislike(u)) perfil.addLike(d, like, u)
-		else new UsuarioNoTienePermisoParaMGoNMGException
+		else throw new UsuarioNoTienePermisoParaMGoNMGException
 		perfilHome.updatePerfil(perfil, perfil)
 	}
 
@@ -60,7 +61,7 @@ class PerfilService {
 		var perfil = getPerfil(u)
 		var dislike = new Dislike(perfil.username)
 		if(d.puedoAgregarLikeODislike(u)) perfil.addDislike(d, dislike, u)
-		else new UsuarioNoTienePermisoParaMGoNMGException
+		else throw new UsuarioNoTienePermisoParaMGoNMGException
 		perfilHome.updatePerfil(perfil, perfil)
 	}
 	  
@@ -82,11 +83,4 @@ class PerfilService {
 		else return perfilHome.stalkearNoAmigo(aStalkear)	
 	}
 	
-	
-	
-	
 }
-				
-
-	
-	

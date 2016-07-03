@@ -21,6 +21,7 @@ import ar.edu.unq.epers.aterrizar.servicios.DocumentsServiceRunner
 import ar.edu.unq.epers.aterrizar.servicios.PerfilService
 import ar.edu.unq.epers.aterrizar.servicios.SocialNetworkingService
 import ar.edu.unq.epers.aterrizar.servicios.TramoService
+<<<<<<< HEAD
 import java.sql.Date
 import org.hibernate.SessionFactory
 import org.hibernate.classic.Session
@@ -28,6 +29,12 @@ import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+=======
+import ar.edu.unq.epers.aterrizar.servicios.AsientoService
+import ar.edu.unq.epers.aterrizar.model.Asiento
+import ar.edu.unq.epers.aterrizar.model.Tramo
+import ar.edu.unq.epers.aterrizar.home.BaseHome
+>>>>>>> 66c4c64a28181c3602a8b16e6138829fdeb90010
 
 class PerfilServiceTest {
 	
@@ -54,7 +61,10 @@ class PerfilServiceTest {
 	Visibility visibilityPrivado
 	Visibility visibilityPublico
 	Visibility visibilityAmigos
-	
+	AsientoService asientoService
+	BaseHome homeBase
+	Asiento asiento
+	Tramo tramo
 	
 	
 	/*  Hibernate   */
@@ -186,6 +196,11 @@ class PerfilServiceTest {
 		visibilityAmigos = Visibility.AMIGOS
 		queCalor = new Comment("que calor")
 		queAburrido = new Comment("que aburrido")
+		tramoService = new TramoService
+		asientoService = new AsientoService
+		asiento = new Asiento
+		tramo = new Tramo("Berazategui", "Mar del plata")
+		homeBase = new BaseHome
 	}
 	
 	@Test
@@ -202,6 +217,8 @@ class PerfilServiceTest {
 	def void addDestinyTest() {
 		serviceAsiento.reservarAsientoParaUsuario(tramo.asientos.get(0), usuarioPepe)
 		service.addPerfil(usuarioPepe)
+		asientoService.guardar(asiento)
+		asientoService.reservarAsientoParaUsuario(asiento, usuarioPepe)
 		service.addDestiny(usuarioPepe, marDelPlataDestiny)
 		var perfilPepe = service.getPerfil(usuarioPepe)
 		Assert.assertEquals(perfilPepe.destinations.size, 1)
@@ -344,5 +361,7 @@ class PerfilServiceTest {
 	@After
 	def void cleanDB(){
 		home.mongoCollection.drop
+		homeBase.hqlTruncate('asiento')
+        homeBase.hqlTruncate('usuario')
 	}
 }
