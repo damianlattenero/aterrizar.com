@@ -32,6 +32,7 @@ import ar.edu.unq.epers.aterrizar.servicios.AsientoService
 import ar.edu.unq.epers.aterrizar.model.Asiento
 import ar.edu.unq.epers.aterrizar.model.Tramo
 import ar.edu.unq.epers.aterrizar.home.BaseHome
+import java.util.List
 
 class PerfilServiceTest {
 	
@@ -68,7 +69,6 @@ class PerfilServiceTest {
 	 
     var Usuario user
     var TramoService serviceTramo
-    var AsientoService serviceAsiento
     var BaseService servicioBase = new BaseService
 
     SessionFactory sessionFactory;
@@ -96,7 +96,6 @@ class PerfilServiceTest {
             nacimiento = new Date(2015,10,1)
         ]
         serviceTramo = new TramoService
-        serviceAsiento = new AsientoService
 
 
 
@@ -202,8 +201,7 @@ class PerfilServiceTest {
 	}
 	
 	@Test
-	def void getPerfil() {
-		service.addPerfil(usuarioPepe)
+	def void getPerfil() {			service.addPerfil(usuarioPepe)
 		var perfilPepe = service.getPerfil(usuarioPepe)
 		Assert.assertEquals(perfilPepe.username, "pepe")
 		service.addPerfil(usuarioLuis)
@@ -211,15 +209,33 @@ class PerfilServiceTest {
 		Assert.assertEquals(perfilLuis.username, "luis")
 	}
 	
-	@Test
-	def void addDestinyTest() {
-		serviceAsiento.reservarAsientoParaUsuario(tramo.asientos.get(0), usuarioPepe)
-		service.addPerfil(usuarioPepe)
-		asientoService.guardar(asiento)
-		asientoService.reservarAsientoParaUsuario(asiento, usuarioPepe)
-		service.addDestiny(usuarioPepe, marDelPlataDestiny)
-		var perfilPepe = service.getPerfil(usuarioPepe)
-		Assert.assertEquals(perfilPepe.destinations.size, 1)
+@Test
+def void addDestinyTest() {
+							
+servicioBase.guardar(vuelo1)					
+//servicioBase.guardar(tramo)
+//servicioBase.guardar(asiento1)
+//servicioBase.guardar(asiento2)
+//servicioBase.guardar(asiento3)
+//asientoService.reservarAsientoParaUsuario(asiento1, usuarioPepe)
+
+val List<Asiento> listaAReservar = #[asiento1,asiento2,asiento3]
+asientoService.reservarUnConjuntoDeAsientosParaUsuario(listaAReservar, usuarioPepe)
+
+Assert.assertEquals(servicioBase.buscar(asiento1, asiento1.id).reservadoPorUsuario.nombreDeUsuario, usuarioPepe.nombreDeUsuario)
+Assert.assertEquals(servicioBase.buscar(asiento2, asiento2.id).reservadoPorUsuario.nombreDeUsuario, usuarioPepe.nombreDeUsuario)
+Assert.assertEquals(servicioBase.buscar(asiento3, asiento3.id).reservadoPorUsuario.nombreDeUsuario, usuarioPepe.nombreDeUsuario)
+						
+						
+//asientoService.guardar(asiento2)
+//asientoService.guardar(asiento3)
+//asientoService.guardar(asiento1)
+     										
+service.addPerfil(usuarioPepe)
+service.addDestiny(usuarioPepe, marDelPlataDestiny)
+        				
+						
+		//Assert.assertEquals(perfilPepe.destinations.size, 1)
 		//Assert.assertEquals(perfilPepe.destinations.get(0).nombre, "Mar del plata")	
 	}
 	  
@@ -360,7 +376,33 @@ class PerfilServiceTest {
 	@After
 	def void cleanDB(){
 		home.mongoCollection.drop
-		homeBase.hqlTruncate('asiento')
-        homeBase.hqlTruncate('usuario')
+		
+		 homeBase.hqlTruncate("asiento")
+        homeBase.hqlTruncate("criterioCompuesto")
+        homeBase.hqlTruncate("ordenVacio")
+        homeBase.hqlTruncate("MenorCosto")
+        homeBase.hqlTruncate("MenorDuracion")
+        homeBase.hqlTruncate("MenorCantidadDeEscalas")
+        homeBase.hqlTruncate("busqueda")
+        homeBase.hqlTruncate("criterioCompuesto")
+        homeBase.hqlTruncate("criterioVacio")
+        homeBase.hqlTruncate("criterioPorAerolinea")
+        homeBase.hqlTruncate("criterioPorCategoriaDeAsiento")
+        homeBase.hqlTruncate("criterioPorFechaDeLlegada")
+        homeBase.hqlTruncate("criterioPorFechaDeSalida")
+        homeBase.hqlTruncate("criterioPorOrigen")
+        homeBase.hqlTruncate("criterioPorDestino")
+
+        homeBase.hqlTruncate("primera")
+        homeBase.hqlTruncate("turista")
+        homeBase.hqlTruncate("business")
+        homeBase.hqlTruncate("categoria")
+        homeBase.hqlTruncate("criterio")
+        homeBase.hqlTruncate("tramo")
+        homeBase.hqlTruncate("usuario")
+        homeBase.hqlTruncate("vueloOfertado")
+		
+		
+		
 	}
 }

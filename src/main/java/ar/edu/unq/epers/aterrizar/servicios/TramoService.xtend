@@ -50,7 +50,7 @@ class TramoService extends BaseService{
     }
 	
 	def tieneReservadoAsiento(Usuario usuario, Destiny destiny) {
-		SessionManager.runInSession([
+	SessionManager.runInSession([
             val tramoHome = new TramoHome()
             var listaAsientos = tramoHome.getTramosConDestino(usuario.nombreDeUsuario, destiny.nombre)
             listaAsientos.size > 0

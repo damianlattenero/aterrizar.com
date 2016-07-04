@@ -35,10 +35,10 @@ class PerfilService {
 		perfilHome.insert(perfil)
 	}
 	
-	def void addDestiny(Usuario u, Destiny d) {
+		def void addDestiny(Usuario u, Destiny d) {
 		var perfil = getPerfil(u)
-		//if(tramoService.tieneReservadoAsiento(u, d)) perfil.addDestiny(d)
-		if(true) perfil.addDestiny(d)
+		if(tramoService.tieneReservadoAsiento(u, d)) perfil.addDestiny(d)
+		//if(true) perfil.addDestiny(d)
 		else throw new UsuarioNoTieneAsientoEnDestinoException
 		perfilHome.updatePerfil(perfil, perfil)		
 	}
