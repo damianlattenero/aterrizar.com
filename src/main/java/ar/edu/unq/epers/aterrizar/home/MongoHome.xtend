@@ -103,13 +103,16 @@ class MongoHome<T> {
 	}
 	
 	def stalkearAmigo(Usuario user) {
+		
+		
+		
 		var results = this.aggregate
 			.match("username", user.nombreDeUsuario)
 			.project
-			.filter("destinations") 
+			.filter("destinations")
 			.or(#[ [it.eq("visibility", "PUBLICO")], [it.eq("visibility", "AMIGOS")] ])
 			.execute
-				return results.get(0) 
+				return results.get(0)  
 	}
 		
 }
