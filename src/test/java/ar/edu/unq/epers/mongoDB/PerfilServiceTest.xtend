@@ -76,7 +76,13 @@ class PerfilServiceTest {
     Asiento asiento1
     Asiento asiento2
     Asiento asiento3
+    Asiento asiento4
+    Asiento asiento5
+    Asiento asiento6
+    Asiento asiento7
     Tramo tramo3
+    Tramo tramo4
+    Tramo tramo5
     VueloOfertado vuelo1
     VueloOfertado vuelo2
     VueloOfertado vuelo3
@@ -148,12 +154,52 @@ class PerfilServiceTest {
                 ]
             ]
         ]
+        
+        tramo4 = new Tramo => [
 
+            origen = "Brasil"
+            destino = "bahiaBlanca"
+            llegada = new Date(1000)
+            salida = new Date(116,6,16)
+            
+            asientos = #[
+                asiento4 = new Asiento => [
+                    nombre = "c 4"
+                    categoria = new Business(500)
+                ],
+                asiento5 = new Asiento => [
+                    nombre = "c 5"
+                    categoria = new Business(500)
+                ]
+            ]
+        ]
+        
+        
+        tramo5 = new Tramo => [
+
+            origen = "Brasil"
+            destino = "bariloche"
+            llegada = new Date(1000)
+            salida = new Date(116,6,16)
+            
+            asientos = #[
+                asiento6 = new Asiento => [
+                    nombre = "c 6"
+                    categoria = new Business(500)
+                ],
+                asiento7 = new Asiento => [
+                    nombre = "c 7"
+                    categoria = new Business(500)
+                ]
+            ]
+        ]
+        
+		
 
 
         vuelo1 = new VueloOfertado (#[new Tramo("Paris", "Italia"),tramo], 1000)
         vuelo2 = new VueloOfertado (#[tramo3, new Tramo("Mexico", "España")] ,2500)
-        vuelo3 = new VueloOfertado (#[new Tramo("Paris", "Italia"), new Tramo("Italia", "Grecia")],1600)
+        vuelo3 = new VueloOfertado (#[tramo4, tramo5],2000)
         vuelo4 = new VueloOfertado (#[new Tramo("Paris", "Italia"), new Tramo("Italia", "Venezuela")] ,800)
         vuelo5 = new VueloOfertado (#[new Tramo("Paris", "Italia"), new Tramo("Italia", "Venezuela"), new Tramo("Venezuela", "Peru")] , 8800)
 
@@ -174,7 +220,7 @@ class PerfilServiceTest {
 		usuarioPepe.nombreYApellido = "pepe gonzales"
 		usuarioLuis = new Usuario()
 		usuarioLuis.nombreDeUsuario = "luis"
-		usuarioPepe.nombreYApellido = "luis Buggianessi"
+		usuarioLuis.nombreYApellido = "luis Buggianessi"
 		usuarioJuanAmigoDeNadie = new Usuario()
 		usuarioJuanAmigoDeNadie.nombreDeUsuario = "juan"
 		marDelPlataDestiny = new Destiny()
@@ -213,12 +259,6 @@ class PerfilServiceTest {
 def void addDestinyTest() {
 							
 servicioBase.guardar(vuelo1)					
-//servicioBase.guardar(tramo)
-//servicioBase.guardar(asiento1)
-//servicioBase.guardar(asiento2)
-//servicioBase.guardar(asiento3)
-//asientoService.reservarAsientoParaUsuario(asiento1, usuarioPepe)
-
 val List<Asiento> listaAReservar = #[asiento1,asiento2,asiento3]
 asientoService.reservarUnConjuntoDeAsientosParaUsuario(listaAReservar, usuarioPepe)
 
@@ -226,21 +266,17 @@ Assert.assertEquals(servicioBase.buscar(asiento1, asiento1.id).reservadoPorUsuar
 Assert.assertEquals(servicioBase.buscar(asiento2, asiento2.id).reservadoPorUsuario.nombreDeUsuario, usuarioPepe.nombreDeUsuario)
 Assert.assertEquals(servicioBase.buscar(asiento3, asiento3.id).reservadoPorUsuario.nombreDeUsuario, usuarioPepe.nombreDeUsuario)
 						
-						
-//asientoService.guardar(asiento2)
-//asientoService.guardar(asiento3)
-//asientoService.guardar(asiento1)
-     										
 service.addPerfil(usuarioPepe)
 service.addDestiny(usuarioPepe, marDelPlataDestiny)
-        				
-						
-		//Assert.assertEquals(perfilPepe.destinations.size, 1)
-		//Assert.assertEquals(perfilPepe.destinations.get(0).nombre, "Mar del plata")	
-	}
+ 
+}
 	  
 	@Test
 	def void addCommentTest() {
+		servicioBase.guardar(vuelo1)					
+val List<Asiento> listaAReservar = #[asiento1,asiento2,asiento3]
+asientoService.reservarUnConjuntoDeAsientosParaUsuario(listaAReservar, usuarioPepe)
+		
 		service.addPerfil(usuarioPepe)
 		service.addDestiny(usuarioPepe, marDelPlataDestiny)
 		service.addComment(usuarioPepe, marDelPlataDestiny, queFrio)
@@ -252,6 +288,11 @@ service.addDestiny(usuarioPepe, marDelPlataDestiny)
 	 
 	@Test
 	def void addLikeTest() {
+		
+servicioBase.guardar(vuelo1)					
+val List<Asiento> listaAReservar = #[asiento1,asiento2,asiento3]
+asientoService.reservarUnConjuntoDeAsientosParaUsuario(listaAReservar, usuarioPepe)
+		
 		service.addPerfil(usuarioPepe)
 		service.addDestiny(usuarioPepe, marDelPlataDestiny)
 		service.addlike(usuarioPepe, marDelPlataDestiny)
@@ -265,6 +306,11 @@ service.addDestiny(usuarioPepe, marDelPlataDestiny)
 	
 	@Test
 	def void addDislikeTest() {
+		
+servicioBase.guardar(vuelo1)					
+val List<Asiento> listaAReservar = #[asiento1,asiento2,asiento3]
+asientoService.reservarUnConjuntoDeAsientosParaUsuario(listaAReservar, usuarioPepe)
+		
 		service.addPerfil(usuarioPepe)
 		service.addDestiny(usuarioPepe, marDelPlataDestiny)
 		service.addDislike(usuarioPepe, marDelPlataDestiny)
@@ -281,6 +327,10 @@ service.addDestiny(usuarioPepe, marDelPlataDestiny)
 	   
 	@Test
 	def void addVisibilityDestinyTest() {
+		servicioBase.guardar(vuelo1)					
+val List<Asiento> listaAReservar = #[asiento1,asiento2,asiento3]
+asientoService.reservarUnConjuntoDeAsientosParaUsuario(listaAReservar, usuarioPepe)
+		
 		service.addPerfil(usuarioPepe)
 		service.addDestiny(usuarioPepe, marDelPlataDestiny)
 		service.addVisibility(usuarioPepe, marDelPlataDestiny, visibilityPrivado)
@@ -293,6 +343,10 @@ service.addDestiny(usuarioPepe, marDelPlataDestiny)
 	
 	@Test
 	def void addVisibilityCommentTest() {
+		servicioBase.guardar(vuelo1)					
+val List<Asiento> listaAReservar = #[asiento1,asiento2,asiento3]
+asientoService.reservarUnConjuntoDeAsientosParaUsuario(listaAReservar, usuarioPepe)
+		
 		service.addPerfil(usuarioPepe)
 		service.addDestiny(usuarioPepe, marDelPlataDestiny)
 		service.addComment(usuarioPepe, marDelPlataDestiny, queFrio)
@@ -307,6 +361,10 @@ service.addDestiny(usuarioPepe, marDelPlataDestiny)
 	  
 	@Test
 	def void stalkearYoMismoTest() {
+		servicioBase.guardar(vuelo1)					
+val List<Asiento> listaAReservar = #[asiento1,asiento2,asiento3]
+asientoService.reservarUnConjuntoDeAsientosParaUsuario(listaAReservar, usuarioPepe)
+		
 		socialService.agregarPersona(usuarioPepe)
 		service.addPerfil(usuarioPepe)
 		service.addDestiny(usuarioPepe, marDelPlataDestiny)
@@ -320,6 +378,10 @@ service.addDestiny(usuarioPepe, marDelPlataDestiny)
 	
 	@Test
 	def void stalkearNoAmigoTest() {
+		servicioBase.guardar(vuelo1)					
+val List<Asiento> listaAReservar = #[asiento1,asiento2,asiento3]
+asientoService.reservarUnConjuntoDeAsientosParaUsuario(listaAReservar, usuarioPepe)
+		
 		socialService.agregarPersona(usuarioPepe)
 		socialService.agregarPersona(usuarioJuanAmigoDeNadie)
 		service.addPerfil(usuarioPepe)
@@ -345,6 +407,16 @@ service.addDestiny(usuarioPepe, marDelPlataDestiny)
 	
 	@Test
 	def void stalkearAmigoTest() {
+		servicioBase.guardar(vuelo1)					
+val List<Asiento> listaAReservar = #[asiento4, asiento5, asiento6]
+
+
+
+asientoService.reservarUnConjuntoDeAsientosParaUsuario(listaAReservar, usuarioLuis)
+
+asientoService.reservarAsientoParaUsuario(asiento7, usuarioPepe)
+
+		
 		socialService.agregarPersona(usuarioPepe)
 		socialService.agregarPersona(usuarioLuis)
 		service.addPerfil(usuarioPepe)
