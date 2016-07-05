@@ -362,7 +362,7 @@ asientoService.reservarUnConjuntoDeAsientosParaUsuario(listaAReservar, usuarioPe
 	@Test
 	def void stalkearYoMismoTest() {
 		servicioBase.guardar(vuelo1)					
-val List<Asiento> listaAReservar = #[asiento1,asiento2,asiento3]
+val List<Asiento> listaAReservar = #[asiento1, asiento2, asiento3, asiento4, asiento5, asiento6, asiento7]
 asientoService.reservarUnConjuntoDeAsientosParaUsuario(listaAReservar, usuarioPepe)
 		
 		socialService.agregarPersona(usuarioPepe)
@@ -378,7 +378,11 @@ asientoService.reservarUnConjuntoDeAsientosParaUsuario(listaAReservar, usuarioPe
 	
 	@Test
 	def void stalkearNoAmigoTest() {
-		servicioBase.guardar(vuelo1)					
+		servicioBase.guardar(vuelo1)
+		servicioBase.guardar(vuelo2)
+		servicioBase.guardar(vuelo3)		
+		servicioBase.guardar(vuelo4)
+		servicioBase.guardar(vuelo5)					
 val List<Asiento> listaAReservar = #[asiento1,asiento2,asiento3]
 asientoService.reservarUnConjuntoDeAsientosParaUsuario(listaAReservar, usuarioPepe)
 		
@@ -407,14 +411,19 @@ asientoService.reservarUnConjuntoDeAsientosParaUsuario(listaAReservar, usuarioPe
 	
 	@Test
 	def void stalkearAmigoTest() {
-		servicioBase.guardar(vuelo1)					
-val List<Asiento> listaAReservar = #[asiento4, asiento5, asiento6]
+		servicioBase.guardar(vuelo1)
+		servicioBase.guardar(vuelo2)
+		servicioBase.guardar(vuelo3)		
+		servicioBase.guardar(vuelo4)
+		servicioBase.guardar(vuelo5)
+									
+val List<Asiento> listaAReservar = #[asiento1, asiento2, asiento3, asiento4, asiento5, asiento6, asiento7]
 
 
 
 asientoService.reservarUnConjuntoDeAsientosParaUsuario(listaAReservar, usuarioLuis)
 
-asientoService.reservarAsientoParaUsuario(asiento7, usuarioPepe)
+//asientoService.reservarAsientoParaUsuario(asiento7, usuarioPepe)
 
 		
 		socialService.agregarPersona(usuarioPepe)
@@ -438,10 +447,10 @@ asientoService.reservarAsientoParaUsuario(asiento7, usuarioPepe)
 		Assert.assertEquals(perfilLuis.destinations.size, 2)
 		Assert.assertEquals(perfilLuis.destinations.get(0).nombre, "Mar del plata")
 		Assert.assertEquals(perfilLuis.destinations.get(1).nombre, "bariloche")
-		//Assert.assertEquals(perfilLuis.destinations.get(0).comments.size, 2)
+		Assert.assertEquals(perfilLuis.destinations.get(0).comments.size, 3)
 		Assert.assertEquals(perfilLuis.destinations.get(0).comments.get(0).description, "que frio")
 		//si comentaio tuviera visibilidad el proximo test se debe cambiar "que calor" por "que aburrido"
-		Assert.assertEquals(perfilLuis.destinations.get(0).comments.get(1).description, "que calor")
+		//Assert.assertEquals(perfilLuis.destinations.get(0).comments.get(1).description, "que calor")
 	}
 	
 	
