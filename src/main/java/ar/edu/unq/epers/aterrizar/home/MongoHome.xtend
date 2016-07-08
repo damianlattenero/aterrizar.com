@@ -50,7 +50,7 @@ class MongoHome<T> {
     def getPerfil(Usuario u) {
     	var query = DBQuery.is("username", u.nombreDeUsuario)
     	var perfiles = this.find(query)
-    	return perfiles.get(0) 
+    	return perfiles.get(0)
     }
     
     
@@ -99,20 +99,32 @@ class MongoHome<T> {
 			.filter("destinations")
 			.eq("visibility", "PUBLICO").aggregation 
 			.execute
-				return results.get(0) 
+				var perfilReturn = results.get(0) as Perfil
+							perfilReturn.username = user.nombreDeUsuario
+							return perfilReturn   
+				
 	}
 	
 	def stalkearAmigo(Usuario user) {
 		
-		
-		
+		/*
+		 def getPerfil(Usuario u) {
+    	var query = DBQuery.is("username", u.nombreDeUsuario)
+    	var perfiles = this.find(query)
+    	return perfiles.get(0)
+    }
+		 */
+		 
+		 
 		var results = this.aggregate
 			.match("username", user.nombreDeUsuario)
 			.project
 			.filter("destinations")
 			.or(#[ [it.eq("visibility", "PUBLICO")], [it.eq("visibility", "AMIGOS")] ])
 			.execute
-				return results.get(0)  
+							var perfilReturn = results.get(0) as Perfil
+							perfilReturn.username = user.nombreDeUsuario
+							return perfilReturn  
 	}
 		
 }

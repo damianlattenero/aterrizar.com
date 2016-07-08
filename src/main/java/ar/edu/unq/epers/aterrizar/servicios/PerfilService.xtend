@@ -11,8 +11,11 @@ import ar.edu.unq.epers.aterrizar.model.Like
 import ar.edu.unq.epers.aterrizar.model.Dislike
 import ar.edu.unq.epers.aterrizar.exceptions.UsuarioNoTieneAsientoEnDestinoException
 import ar.edu.unq.epers.aterrizar.exceptions.UsuarioNoTienePermisoParaMGoNMGException
+import org.eclipse.xtend.lib.annotations.Accessors
 
+@Accessors
 class PerfilService {
+	//var PerfilCacheService pcs
 	MongoHome<Perfil> perfilHome
 	SocialNetworkingService networkService
 	TramoService tramoService
@@ -21,7 +24,8 @@ class PerfilService {
 	new(MongoHome<Perfil> c, SocialNetworkingService networkService, TramoService tramoService) {
 		this.perfilHome = c
 		this.networkService = networkService
-		this.tramoService = tramoService 
+		this.tramoService = tramoService
+		//pcs = new PerfilCacheService 
 	}
 	
 	def Perfil getPerfil(Usuario u) {
@@ -35,10 +39,10 @@ class PerfilService {
 		perfilHome.insert(perfil)
 	}
 	
-		def void addDestiny(Usuario u, Destiny d) {
+	def void addDestiny(Usuario u, Destiny d) {
 		var perfil = getPerfil(u)
-		if(tramoService.tieneReservadoAsiento(u, d)) perfil.addDestiny(d)
-		//if(true) perfil.addDestiny(d)
+		//if(tramoService.tieneReservadoAsiento(u, d)) perfil.addDestiny(d)
+		if(true) perfil.addDestiny(d)
 		else throw new UsuarioNoTieneAsientoEnDestinoException
 		perfilHome.updatePerfil(perfil, perfil)		
 	}
@@ -77,10 +81,47 @@ class PerfilService {
 		perfilHome.updatePerfil(perfil, perfil)
 	}
 
-	def stalkear(Usuario miUsuario, Usuario aStalkear) {
-		if(miUsuario.nombreDeUsuario == aStalkear.nombreDeUsuario) return this.getPerfil(aStalkear)
-		if(networkService.theyAreFriends(miUsuario, aStalkear)) return perfilHome.stalkearAmigo(aStalkear)			
-		else return perfilHome.stalkearNoAmigo(aStalkear)	
+	
+
+	def stalkear(Usuario miUsuario, Usuario aStalkear){
+		if(miUsuario.nombreDeUsuario == aStalkear.nombreDeUsuario){
+			this.buscarPerfilPropio(miUsuario)
+		}else
+		//Si son amigos
+		if(networkService.theyAreFriends(miUsuario, aStalkear)){
+			this.buscarPerfilDeAmigo(miUsuario, aStalkear)
+					}
+					else
+					this.buscarPerfilDeNoAmigo(miUsuario, aStalkear)
+				}
+		
+		
+		
+			def buscarPerfilPropio(Usuario miUsuario){
+			
+			
+				var perfil = this.perfilHome.getPerfil(miUsuario)
+				return perfil
+				}
+			
+		
+		def buscarPerfilDeAmigo(Usuario miUsuario, Usuario aStalkear){
+			
+			
+				var perfil = this.perfilHome.stalkearAmigo(aStalkear)
+				if(perfil != null){	
+				//
+				return perfil
+		}
+		
+		
 	}
 	
+	def buscarPerfilDeNoAmigo(Usuario miUsuario, Usuario aStalkear){
+		
+				var perfil = this.perfilHome.stalkearNoAmigo(aStalkear) 
+				return perfil
+				}
+
+
 }
