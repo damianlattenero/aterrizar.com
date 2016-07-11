@@ -1,14 +1,18 @@
 package ar.edu.unq.epers.aterrizar.Cassandra
 
-import ar.edu.unq.epers.aterrizar.model.Comment
-import ar.edu.unq.epers.aterrizar.model.Destiny
-import ar.edu.unq.epers.aterrizar.model.Like
-import ar.edu.unq.epers.aterrizar.model.Visibility
-import com.datastax.driver.mapping.annotations.Field
-import com.datastax.driver.mapping.annotations.FrozenValue
-import com.datastax.driver.mapping.annotations.UDT
-import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
+import com.datastax.driver.mapping.annotations.Table
+import com.datastax.driver.mapping.annotations.PartitionKey
+import com.datastax.driver.mapping.annotations.Column
+import ar.edu.unq.epers.aterrizar.model.Destiny
+import com.datastax.driver.mapping.annotations.UDT
+import com.datastax.driver.mapping.annotations.Field
+import java.util.List
+import ar.edu.unq.epers.aterrizar.model.Comment
+import ar.edu.unq.epers.aterrizar.model.Like
+import ar.edu.unq.epers.aterrizar.model.Dislike
+import ar.edu.unq.epers.aterrizar.model.Visibility
+import com.datastax.driver.mapping.annotations.FrozenValue
 
 @Accessors
 @UDT(keyspace="persistenciaPerfiles", name="destinyCache")
@@ -19,10 +23,6 @@ class DestinoCache {
 	@Field(name="visibility")
 	String visibility
 	@Field(name="comments")
-	/*
-	 * @FrozenValue //("List< frozen<DestinyCache>>")
-	 * List<DestinyCache> destinies
-	 */
 	@FrozenValue
 	List<ComentarioCache> comments
 	@Field(name="likes")
@@ -52,7 +52,7 @@ class DestinoCache {
 		}
 
 		dislikes = newArrayList
-		for (ar.edu.unq.epers.aterrizar.model.Dislike d : destino.dislikes) {
+		for (Dislike d : destino.dislikes) {
 			dislikes.add(new DislikeCache(d.username))
 		}
 	}
@@ -74,8 +74,6 @@ class DestinoCache {
 		}
 
 		d.nombre = this.destinyName
-		
-		
 
 		if (this.visibility == "PUBLICO")
 			d.visibility = Visibility.PUBLICO
