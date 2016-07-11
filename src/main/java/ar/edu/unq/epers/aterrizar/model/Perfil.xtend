@@ -6,23 +6,29 @@ import java.util.ArrayList
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.mongojack.ObjectId
 import org.mongojack.Id
+import com.datastax.driver.mapping.annotations.UDT
+import com.datastax.driver.mapping.annotations.FrozenValue
+import com.datastax.driver.mapping.annotations.Field
 
-
+@UDT(name = "perfil", keyspace = "persistenciaPerfiles")
 @Accessors
 class Perfil {
-
+	
 	private String username
+	@FrozenValue
 	private List<Destiny> destinations	
 	@ObjectId
 	@JsonProperty("_id")
 	String id
 	
-	new() {}
+	new() {
+		this.destinations = new ArrayList<Destiny>
+	}
 	
 
 	new(String username) {
 		this.username = username
-		this.destinations = new ArrayList()
+		this.destinations = new ArrayList<Destiny>()
 	}
 	
 	
