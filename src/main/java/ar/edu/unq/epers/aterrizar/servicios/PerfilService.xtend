@@ -1,16 +1,16 @@
 package ar.edu.unq.epers.aterrizar.servicios
 
-import ar.edu.unq.epers.aterrizar.home.MongoHome
-import ar.edu.unq.epers.aterrizar.model.Usuario
-import ar.edu.unq.epers.aterrizar.model.Destiny
-import ar.edu.unq.epers.aterrizar.model.Visibility
-import ar.edu.unq.epers.aterrizar.model.Comment
-import ar.edu.unq.epers.aterrizar.model.Perfil
-import java.util.ArrayList
-import ar.edu.unq.epers.aterrizar.model.Like
-import ar.edu.unq.epers.aterrizar.model.Dislike
+import ar.edu.unq.epers.aterrizar.Cassandra.Visibilidad
 import ar.edu.unq.epers.aterrizar.exceptions.UsuarioNoTieneAsientoEnDestinoException
 import ar.edu.unq.epers.aterrizar.exceptions.UsuarioNoTienePermisoParaMGoNMGException
+import ar.edu.unq.epers.aterrizar.home.MongoHome
+import ar.edu.unq.epers.aterrizar.model.Comment
+import ar.edu.unq.epers.aterrizar.model.Destiny
+import ar.edu.unq.epers.aterrizar.model.Dislike
+import ar.edu.unq.epers.aterrizar.model.Like
+import ar.edu.unq.epers.aterrizar.model.Perfil
+import ar.edu.unq.epers.aterrizar.model.Usuario
+import java.util.ArrayList
 import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
@@ -69,13 +69,13 @@ class PerfilService {
 		perfilHome.updatePerfil(perfil, perfil)
 	}
 	  
-	def void addVisibility(Usuario u, Destiny d, Visibility visibility) {
+	def void addVisibility(Usuario u, Destiny d, Visibilidad visibility) {
 		var perfil = getPerfil(u)
 		perfil.addVisibility(d, visibility)
 		perfilHome.updatePerfil(perfil, perfil)
 	}
 	 
-	def void addVisibility(Usuario u, Destiny d, Comment c, Visibility visibility) {
+	def void addVisibility(Usuario u, Destiny d, Comment c, Visibilidad visibility) {
 		var perfil = getPerfil(u)
 		perfil.addVisibility(d, c, visibility)
 		perfilHome.updatePerfil(perfil, perfil)

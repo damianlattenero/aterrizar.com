@@ -1,14 +1,13 @@
 package ar.edu.unq.epers.aterrizar.model
 
+import ar.edu.unq.epers.aterrizar.Cassandra.Visibilidad
+import com.datastax.driver.mapping.annotations.Frozen
+import com.datastax.driver.mapping.annotations.UDT
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.util.ArrayList
+import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.mongojack.ObjectId
-import java.util.ArrayList
-import com.datastax.driver.mapping.annotations.UDT
-import com.datastax.driver.mapping.annotations.FrozenValue
-import com.datastax.driver.mapping.annotations.Frozen
-import java.util.List
-import com.datastax.driver.mapping.annotations.Field
 
 @UDT(name = "destiny", keyspace = "persistenciaPerfiles")
 @Accessors
@@ -28,7 +27,7 @@ class Destiny {
 	List<Comment> comments
 	
 	
-	Visibility visibility
+	Visibilidad visibility
 	
 	new() {
 		comments = new ArrayList
@@ -74,7 +73,7 @@ class Destiny {
 		}
 	}
 	
-	def deleteComments(Visibility v) {
+	def deleteComments(Visibilidad v) {
 		for(Comment c : comments) {
 			if(c.visibility.toString == v.toString) this.comments.remove(c)
 		}

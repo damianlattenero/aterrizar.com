@@ -1,14 +1,13 @@
 package ar.edu.unq.epers.aterrizar.model
 
-import org.eclipse.xtend.lib.annotations.Accessors
-import java.util.List
-import java.util.ArrayList
-import com.fasterxml.jackson.annotation.JsonProperty
-import org.mongojack.ObjectId
-import org.mongojack.Id
-import com.datastax.driver.mapping.annotations.UDT
+import ar.edu.unq.epers.aterrizar.Cassandra.Visibilidad
 import com.datastax.driver.mapping.annotations.FrozenValue
-import com.datastax.driver.mapping.annotations.Field
+import com.datastax.driver.mapping.annotations.UDT
+import com.fasterxml.jackson.annotation.JsonProperty
+import java.util.ArrayList
+import java.util.List
+import org.eclipse.xtend.lib.annotations.Accessors
+import org.mongojack.ObjectId
 
 @UDT(name = "perfil", keyspace = "persistenciaPerfiles")
 @Accessors
@@ -68,27 +67,26 @@ class Perfil {
 		}
 	}
 	
-	def addVisibility(Destiny d, Visibility visibility) {
+	def addVisibility(Destiny d, Visibilidad visibility) {
 		for(Destiny dest : destinations) {
 			if(dest.nombre == d.nombre) dest.setVisibility(visibility)
 		}
 	}
 	
-	def addVisibility(Destiny d,Comment c, Visibility v) {
+	def addVisibility(Destiny d,Comment c, Visibilidad v) {
 		for(Destiny dest : destinations) {
 			if(dest.nombre == d.nombre) dest.getComment(c).setVisibility(v)
 		}
 	}
 	
-	def deleteComments(Visibility v) {
+	def deleteComments(Visibilidad v) {
 		for(Destiny dest : destinations) dest.deleteComments(v)
 			
 	}
 	
-	def deleteDestinations(Visibility v) {
+	def deleteDestinations(Visibilidad v) {
 		var destinationsAux = new ArrayList<Destiny>
 		for(Destiny d : destinations) {
-			//if(!(d.visibility.toString == v.toString)) destinationsAux.add(d)
 			if(!(d.visibility.toString == v.toString)) destinationsAux.add(d)
 		}
 			destinations = destinationsAux
