@@ -3,20 +3,11 @@ package ar.edu.unq.epers.aterrizar.home
 import ar.edu.unq.epers.aterrizar.model.Message
 import ar.edu.unq.epers.aterrizar.model.TipoDeRelaciones
 import ar.edu.unq.epers.aterrizar.model.Usuario
-import java.sql.Date
-import java.util.ArrayList
-import org.neo4j.cypher.ExecutionEngine
-import org.neo4j.cypher.ExecutionResult
 import org.neo4j.graphdb.Direction
 import org.neo4j.graphdb.DynamicLabel
 import org.neo4j.graphdb.GraphDatabaseService
 import org.neo4j.graphdb.Node
 import org.neo4j.graphdb.RelationshipType
-import java.util.Set
-import java.util.Map
-import java.util.HashMap
-import java.util.Arrays
-import org.neo4j.graphdb.Result
 import org.neo4j.graphdb.traversal.Evaluators
 
 class SocialNetworkingHome {

@@ -18,7 +18,7 @@ class TramoHome extends BaseService {
         list
     }
 
-    def asientosDisponiblesEnTramo(Tramo t){
+        def asientosDisponiblesEnTramo(Tramo t){
         var q = "select asientos from Tramo tramo join tramo.asientos as asientos where asientos.reservadoPorUsuario = null"
         var query = SessionManager.getSession().createQuery(q) as Query
 
