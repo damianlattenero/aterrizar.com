@@ -285,6 +285,8 @@ class perfilCacheTesting {
 		homeBase.hqlTruncate('usuario')
 
 		service.pcs.clean()
+		
 	}
+	
 
 }
