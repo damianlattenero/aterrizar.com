@@ -1,6 +1,7 @@
 package ar.edu.unq.epers.aterrizar.home
 
 import ar.edu.unq.epers.aterrizar.Cassandra.PerfilEnCache
+import ar.edu.unq.epers.aterrizar.Cassandra.Visibilidad
 import ar.edu.unq.epers.aterrizar.model.Perfil
 import ar.edu.unq.epers.aterrizar.model.Visibility
 import com.datastax.driver.core.Cluster
@@ -118,7 +119,7 @@ class CassandraConector {
 
 	def static Session createSession() {
 
-		val cluster = Cluster.builder().addContactPoint("127.0.0.1").build()
+		val cluster = Cluster.builder().addContactPoint("localhost").build()
 		return cluster.connect()
 	}
 	
@@ -133,7 +134,7 @@ class CassandraConector {
 	
 	
 def savePerfil(Perfil p){
-		var perfil = new PerfilEnCache(p, Visibility.PRIVADO.toString)
+		var perfil = new PerfilEnCache(p, Visibilidad.PRIVADO)
 		mapperPerfil.save(perfil)
 		
 	}
@@ -209,12 +210,12 @@ def savePerfil(Perfil p){
 	}
 	
 	def savePerfilAmigo(Perfil p){
-		var perfilCache = new PerfilEnCache(p, Visibility.AMIGOS.toString)
+		var perfilCache = new PerfilEnCache(p, Visibilidad.AMIGOS)
 		mapperPerfil.save(perfilCache)
 	}
 	
 	def savePerfilNoAmigo(Perfil p){
-		var perfil = new PerfilEnCache(p, Visibility.PUBLICO.toString)
+		var perfil = new PerfilEnCache(p, Visibilidad.PUBLICO)
 		mapperPerfil.save(perfil)
 	}
 	
