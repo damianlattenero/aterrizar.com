@@ -4,16 +4,30 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.mongojack.ObjectId
 import java.util.ArrayList
+import com.datastax.driver.mapping.annotations.UDT
+import com.datastax.driver.mapping.annotations.FrozenValue
+import com.datastax.driver.mapping.annotations.Frozen
+import java.util.List
+import com.datastax.driver.mapping.annotations.Field
 
+@UDT(name = "destiny", keyspace = "persistenciaPerfiles")
 @Accessors
 class Destiny {
 	@ObjectId
 	@JsonProperty("_id")
+	
 	String id
+	
 	String nombre;
-	ArrayList<Like> likes
-	ArrayList<Dislike> dislikes
-	ArrayList<Comment> comments
+	
+	@Frozen("List< frozen<Like>>")
+	List<Like> likes
+	@Frozen("List< frozen<Dislike>>")
+	List<Dislike> dislikes
+	@Frozen("List< frozen<Comment>>")
+	List<Comment> comments
+	
+	
 	Visibility visibility
 	
 	new() {
