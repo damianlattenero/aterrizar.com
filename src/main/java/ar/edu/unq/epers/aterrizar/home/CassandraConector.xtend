@@ -3,9 +3,9 @@ package ar.edu.unq.epers.aterrizar.home
 import ar.edu.unq.epers.aterrizar.Cassandra.PerfilEnCache
 import ar.edu.unq.epers.aterrizar.Cassandra.Visibilidad
 import ar.edu.unq.epers.aterrizar.model.Perfil
-import ar.edu.unq.epers.aterrizar.model.Visibility
 import com.datastax.driver.core.Cluster
 import com.datastax.driver.core.Session
+import com.datastax.driver.extras.codecs.enums.EnumNameCodec
 import com.datastax.driver.mapping.Mapper
 import com.datastax.driver.mapping.MappingManager
 import org.eclipse.xtend.lib.annotations.Accessors
@@ -17,25 +17,16 @@ class CassandraConector {
 	Session session
 	Mapper<PerfilEnCache> mapperPerfil
 	
-	
-	
-		
-	
 	new(){
 		connect
-		//createSession()
-		//createCacheSchema()
+	
 	}
 
 	def connect() {
 		cluster = Cluster.builder().addContactPoint("localhost").build()
 		session = cluster.connect()
-		//val metadata = cluster.getMetadata();
-		//System.out.printf("Connected to cluster: %s\n", metadata.getClusterName());
-		//for (Host host : metadata.getAllHosts()) {
-			//System.out.printf("Datatacenter: %s; Host: %s; Rack: %s\n", host.getDatacenter(), host.getAddress(),
-			//	host.getRack());
-		//}
+		
+		
 		createCacheSchema
 		
 		
@@ -51,6 +42,9 @@ class CassandraConector {
 	def createCacheSchema(){
 		
 		
+		
+								cluster.getConfiguration().getCodecRegistry()
+        							.register(new EnumNameCodec<Visibilidad>(Visibilidad));
 		 
 		session.execute("CREATE KEYSPACE IF NOT EXISTS persistenciaPerfiles
 			WITH replication = {'class':'SimpleStrategy','replication_factor':3}")
@@ -66,13 +60,13 @@ class CassandraConector {
 		session.execute("CREATE TYPE IF NOT EXISTS persistenciaPerfiles.comment (" +
 			"id text, " +
 			"description text, " +
-			"visibility text ); "
+						"visibilidad varchar ); "
 		)
 		
 		session.execute("CREATE TYPE IF NOT EXISTS persistenciaPerfiles.destiny (" +
 			"id text, " +
 			"nombre text, " +
-			"visibility text , " +
+						"visibilidad varchar , " +
 			"comments list<frozen<comment>> , " +
 			"likes list<frozen<like>> , " +
 			"dislikes list<frozen<dislike>> ); "  
@@ -92,21 +86,14 @@ class CassandraConector {
 				"username text, " +
 					"perfil frozen <perfil> ,  " +
 				//	"destinies list< frozen<Destino> >," +
-				"visibility text, " +  
-				"PRIMARY KEY (userName, visibility));" 
+				"visibilidad text, " +  
+				"PRIMARY KEY (userName, visibilidad));" 
 				
 		)
-		
-		
-		
 		
 		mapperPerfil = new MappingManager(session).mapper(PerfilEnCache)
 		
 		}	
-		
-		
-		
-		
 		
 		
 	def getSession() {
@@ -119,7 +106,7 @@ class CassandraConector {
 
 	def static Session createSession() {
 
-		val cluster = Cluster.builder().addContactPoint("localhost").build()
+		val cluster = Cluster.builder().addContactPoint("127.0.0.1").build()
 		return cluster.connect()
 	}
 	
@@ -134,7 +121,7 @@ class CassandraConector {
 	
 	
 def savePerfil(Perfil p){
-		var perfil = new PerfilEnCache(p, Visibilidad.PRIVADO)
+		var perfil = new PerfilEnCache(p, Visibilidad.PRIVADO.toString)
 		mapperPerfil.save(perfil)
 		
 	}
@@ -142,7 +129,7 @@ def savePerfil(Perfil p){
 	def getPerfil(String userName){
 		var Perfil perfil
 		try{
-		 perfil = mapperPerfil.get(userName, Visibility.PRIVADO.toString).asPerfil
+		 perfil = mapperPerfil.get(userName, Visibilidad.PRIVADO.toString).asPerfil
 		 }
 		 catch(Exception e){
 		 perfil = null	
@@ -150,20 +137,6 @@ def savePerfil(Perfil p){
 		 }
 		 return perfil
 		 
-		 
-		//var unPerfilEnCache = mapperPerfil.get(userName, Visibility.PRIVADO.toString)
-					
-		//var ResultSet results
-		//results = session.execute("SELECT * FROM perfilesUsuarios WHERE userName='cristian'");
-		//var results = unPerfilEnCache
-		//if( results == null)
-		//return null
-		//else
-		
-		//ResultSet results
-		//var result2 = session.execute("SELECT * FROM perfilesUsuarios WHERE userName='cristian'");
-		//result2.findFirst[] as PerfilCache
-		//return unPerfilEnCache.asPerfil()
 	}
 	
 	def deletePerfil(String userName){
@@ -187,7 +160,7 @@ def savePerfil(Perfil p){
 		
 		var Perfil unPerfilCache
 		try{
-		 unPerfilCache = mapperPerfil.get(username, Visibility.AMIGOS.toString).asPerfil
+		 unPerfilCache = mapperPerfil.get(username, Visibilidad.AMIGOS.toString).asPerfil
 		 }
 		 catch(Exception e){
 		 unPerfilCache = null	
@@ -200,7 +173,7 @@ def savePerfil(Perfil p){
 			
 		var Perfil unPerfilCache
 		try{
-		 unPerfilCache = mapperPerfil.get(username, Visibility.PUBLICO.toString).asPerfil
+		 unPerfilCache = mapperPerfil.get(username, Visibilidad.PUBLICO.toString).asPerfil
 		 }
 		 catch(Exception e){
 		 unPerfilCache = null	
@@ -210,12 +183,12 @@ def savePerfil(Perfil p){
 	}
 	
 	def savePerfilAmigo(Perfil p){
-		var perfilCache = new PerfilEnCache(p, Visibilidad.AMIGOS)
+		var perfilCache = new PerfilEnCache(p, Visibilidad.AMIGOS.toString)
 		mapperPerfil.save(perfilCache)
 	}
 	
 	def savePerfilNoAmigo(Perfil p){
-		var perfil = new PerfilEnCache(p, Visibilidad.PUBLICO)
+		var perfil = new PerfilEnCache(p, Visibilidad.PUBLICO.toString)
 		mapperPerfil.save(perfil)
 	}
 	
