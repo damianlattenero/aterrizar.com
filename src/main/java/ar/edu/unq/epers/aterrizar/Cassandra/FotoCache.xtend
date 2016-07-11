@@ -4,7 +4,6 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import com.datastax.driver.mapping.annotations.Table
 import com.datastax.driver.mapping.annotations.PartitionKey
 import com.datastax.driver.mapping.annotations.Column
-import ar.edu.unq.epers.aterrizar.model.Visibility
 
 @Accessors
 @Table(keyspace="persistenciaFotos", name="fotosUsuarios")

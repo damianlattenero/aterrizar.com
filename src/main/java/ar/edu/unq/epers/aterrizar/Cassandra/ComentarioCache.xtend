@@ -12,26 +12,24 @@ import com.datastax.driver.mapping.annotations.UDT
 import com.datastax.driver.mapping.annotations.Field
 
 @Accessors
-@UDT (keyspace = "persistenciaPerfiles" , name ="comentarioCache")
+@UDT(keyspace="persistenciaPerfiles", name="comentarioCache")
 class ComentarioCache {
 
-    @Field (name="visibility")
-    String visibilidad
-    @Field (name="description")
-    String description
+	@Field(name="visibility")
+	String visibilidad
+	@Field(name="description")
+	String description
 
+	new() {
+	}
 
+	new(Comment comment) {
+		this.description = comment.description
 
-    new(){}
+	}
 
-    new(Comment comment){
-        this.description = comment.description
-
-    }
-
-    def asComment(){
-        var Comment c = new Comment(description)
-        c
-    }
+	def asComment() {
+		new Comment(description)
+	}
 
 }

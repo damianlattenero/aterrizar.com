@@ -10,7 +10,6 @@ import ar.edu.unq.epers.aterrizar.model.Like
 
 @Accessors
 @UDT(keyspace="persistenciaPerfiles", name="likeCache")
-//@Table(keyspace = "persistenciaLikes", name = "likesUsuarios")
 class LikeCache {
 
 	@Field(name="userName")
@@ -25,8 +24,7 @@ class LikeCache {
 	}
 
 	def asLike() {
-		var Like l = new Like(this.userName)
-		l
+		new Like(this.userName)
 	}
 
 }

@@ -43,14 +43,12 @@ class DestinoCache {
 		this.visibility = destino.visibility.toString
 		comments = newArrayList
 		for (Comment c : destino.comments) {
-			var comm = new ComentarioCache(c)
-			comments.add(comm)
+			comments.add(new ComentarioCache(c))
 		}
 
 		likes = newArrayList
 		for (Like l : destino.likes) {
-			var like = new LikeCache(l)
-			likes.add(like)
+			likes.add(new LikeCache(l))
 		}
 
 		dislikes = newArrayList
@@ -76,6 +74,8 @@ class DestinoCache {
 		}
 
 		d.nombre = this.destinyName
+		
+		
 
 		if (this.visibility == "PUBLICO")
 			d.visibility = Visibility.PUBLICO

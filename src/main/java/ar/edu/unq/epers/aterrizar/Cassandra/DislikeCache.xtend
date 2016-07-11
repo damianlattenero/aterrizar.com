@@ -22,8 +22,7 @@ class DislikeCache {
 	}
 	
 	def asDislike() {
-		var Dislike l = new Dislike(this.userName)
-		l
+		new Dislike(this.userName)
 	}
 	
 }
