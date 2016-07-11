@@ -119,7 +119,7 @@ class Repositorio {
 
     def getConnection() {
         Class.forName("com.mysql.jdbc.Driver");
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/aterrizar?user=root&password=drl")
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/aterrizar?user=root&password=root")
     }
 
 
