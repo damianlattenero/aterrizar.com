@@ -15,7 +15,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
 class PerfilService {
-	//var PerfilCacheService pcs
+	var PerfilCacheService pcs
 	MongoHome<Perfil> perfilHome
 	SocialNetworkingService networkService
 	TramoService tramoService
@@ -25,7 +25,7 @@ class PerfilService {
 		this.perfilHome = c
 		this.networkService = networkService
 		this.tramoService = tramoService
-		//pcs = new PerfilCacheService 
+		pcs = new PerfilCacheService 
 	}
 	
 	def Perfil getPerfil(Usuario u) {
@@ -84,6 +84,11 @@ class PerfilService {
 	
 
 	def stalkear(Usuario miUsuario, Usuario aStalkear){
+		//Revisar si no está en la cache
+		var PerfilCacheService pcs = new PerfilCacheService
+		var Perfil perfilEnCache
+		
+		
 		if(miUsuario.nombreDeUsuario == aStalkear.nombreDeUsuario){
 			this.buscarPerfilPropio(miUsuario)
 		}else
@@ -97,31 +102,55 @@ class PerfilService {
 		
 		
 		
-			def buscarPerfilPropio(Usuario miUsuario){
-			
-			
-				var perfil = this.perfilHome.getPerfil(miUsuario)
-				return perfil
+			def Perfil buscarPerfilPropio(Usuario miUsuario){
+						var result =  pcs.get(miUsuario.nombreDeUsuario)
+			var Perfil perfilEnCache
+				if(result == null){
+				perfilEnCache = this.perfilHome.getPerfil(miUsuario)
+				println("No se encontro perfil propio en la caché. Se procede a guardarlo")
+				pcs.savePerfil(perfilEnCache)
+				return perfilEnCache
 				}
+				else
+				println("Se busco info de la cache. Busqueda reciente de mi propio perfil encontrada")
+				//return result.asPerfil()
+				perfilEnCache = result
+				return perfilEnCache
 			
+		}
 		
 		def buscarPerfilDeAmigo(Usuario miUsuario, Usuario aStalkear){
 			
-			
-				var perfil = this.perfilHome.stalkearAmigo(aStalkear)
-				if(perfil != null){	
-				//
-				return perfil
+			var perfilEnCache = pcs.getPerfilAmigo(aStalkear.nombreDeUsuario)
+			if(perfilEnCache != null){
+				 println("Se busco info de la cache. Busqueda reciente de amigo encontrada")
+				 return perfilEnCache
+				 }
+				 else
+				perfilEnCache = this.perfilHome.stalkearAmigo(aStalkear)
+				if(perfilEnCache != null){	
+				pcs.savePerfilAmigo(perfilEnCache)
+				return perfilEnCache
 		}
 		
 		
 	}
 	
 	def buscarPerfilDeNoAmigo(Usuario miUsuario, Usuario aStalkear){
-		
-				var perfil = this.perfilHome.stalkearNoAmigo(aStalkear) 
-				return perfil
+		//O sea, es un desconocido el que consulta
+		var perfilEnCache = pcs.getPerfilNoAmigo(aStalkear.nombreDeUsuario)
+						if(perfilEnCache == null){
+		println("No se encontro info en la cache. Se procede a buscar en mongo y guardar en la cache...")
+				perfilEnCache = this.perfilHome.stalkearNoAmigo(aStalkear) 
+				pcs.savePerfilNoAmigo(perfilEnCache)
+				return perfilEnCache
 				}
-
+	else
+		{
+		  println("Se busco info de la cache. Busqueda reciente de no amigo encontrada")
+          return perfilEnCache
+	
+		}
+	}
 
 }
