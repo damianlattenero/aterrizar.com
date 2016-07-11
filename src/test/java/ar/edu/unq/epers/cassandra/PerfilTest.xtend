@@ -1,5 +1,6 @@
 package ar.edu.unq.epers.cassandra
 
+import ar.edu.unq.epers.aterrizar.Cassandra.Visibilidad
 import ar.edu.unq.epers.aterrizar.home.BaseHome
 import ar.edu.unq.epers.aterrizar.home.MongoHome
 import ar.edu.unq.epers.aterrizar.home.SessionManager
@@ -13,7 +14,6 @@ import ar.edu.unq.epers.aterrizar.model.Perfil
 import ar.edu.unq.epers.aterrizar.model.Primera
 import ar.edu.unq.epers.aterrizar.model.Tramo
 import ar.edu.unq.epers.aterrizar.model.Usuario
-import ar.edu.unq.epers.aterrizar.model.Visibility
 import ar.edu.unq.epers.aterrizar.model.VueloOfertado
 import ar.edu.unq.epers.aterrizar.servicios.AsientoService
 import ar.edu.unq.epers.aterrizar.servicios.BaseService
@@ -49,9 +49,9 @@ class perfilCacheTesting {
 	Dislike dislikePepe
 	SocialNetworkingService socialService
 	TramoService tramoService
-	Visibility visibilityPrivado
-	Visibility visibilityPublico
-	Visibility visibilityAmigos
+	Visibilidad VisibilidadPrivado
+	Visibilidad VisibilidadPublico
+	Visibilidad VisibilidadAmigos
 	AsientoService asientoService
 	BaseHome homeBase
 	Asiento asiento
@@ -172,9 +172,9 @@ class perfilCacheTesting {
 		queFrio = new Comment("que frio")
 		likePepe = new Like("pepe")
 		dislikePepe = new Dislike("pepe")
-		visibilityPrivado = Visibility.PRIVADO
-		visibilityPublico = Visibility.PUBLICO
-		visibilityAmigos = Visibility.AMIGOS
+		VisibilidadPrivado = Visibilidad.PRIVADO
+		VisibilidadPublico = Visibilidad.PUBLICO
+		VisibilidadAmigos = Visibilidad.AMIGOS
 		queCalor = new Comment("que calor")
 		queAburrido = new Comment("que aburrido")
 		tramoService = new TramoService
@@ -201,8 +201,8 @@ class perfilCacheTesting {
 		service.addPerfil(usuarioPepe)
 		service.addDestiny(usuarioPepe, marDelPlataDestiny)
 		service.addComment(usuarioPepe, marDelPlataDestiny, queFrio)
-		service.addVisibility(usuarioPepe, marDelPlataDestiny, visibilityPrivado)
-		service.addVisibility(usuarioPepe, marDelPlataDestiny, queFrio, visibilityPrivado)
+		service.addVisibility(usuarioPepe, marDelPlataDestiny, VisibilidadPrivado)
+		service.addVisibility(usuarioPepe, marDelPlataDestiny, queFrio, VisibilidadPrivado)
 		val perfilPepe = service.stalkear(usuarioPepe, usuarioPepe)
 		var perfilPepe2 = service.stalkear(usuarioPepe, usuarioPepe)
 
@@ -221,12 +221,12 @@ class perfilCacheTesting {
 		service.addDestiny(usuarioPepe, barilocheDestiny)
 		service.addComment(usuarioPepe, marDelPlataDestiny, queCalor)
 		service.addComment(usuarioPepe, marDelPlataDestiny, queAburrido)
-		service.addVisibility(usuarioPepe, marDelPlataDestiny, visibilityPublico)
-		service.addVisibility(usuarioPepe, bahiaBlancaDestiny, visibilityPrivado)
-		service.addVisibility(usuarioPepe, barilocheDestiny, visibilityAmigos)
-		service.addVisibility(usuarioPepe, marDelPlataDestiny, queFrio, visibilityPublico)
-		service.addVisibility(usuarioPepe, marDelPlataDestiny, queCalor, visibilityPrivado)
-		service.addVisibility(usuarioPepe, marDelPlataDestiny, queAburrido, visibilityAmigos)
+		service.addVisibility(usuarioPepe, marDelPlataDestiny, VisibilidadPublico)
+		service.addVisibility(usuarioPepe, bahiaBlancaDestiny, VisibilidadPrivado)
+		service.addVisibility(usuarioPepe, barilocheDestiny, VisibilidadAmigos)
+		service.addVisibility(usuarioPepe, marDelPlataDestiny, queFrio, VisibilidadPublico)
+		service.addVisibility(usuarioPepe, marDelPlataDestiny, queCalor, VisibilidadPrivado)
+		service.addVisibility(usuarioPepe, marDelPlataDestiny, queAburrido, VisibilidadAmigos)
 		val perfilPepe = service.stalkear(usuarioJuanAmigoDeNadie, usuarioPepe)
 
 		val perfilPepe2 = service.stalkear(usuarioJuanAmigoDeNadie, usuarioPepe)
@@ -248,12 +248,12 @@ class perfilCacheTesting {
 		service.addDestiny(usuarioLuis, barilocheDestiny)
 		service.addComment(usuarioLuis, marDelPlataDestiny, queCalor)
 		service.addComment(usuarioLuis, marDelPlataDestiny, queAburrido)
-		service.addVisibility(usuarioLuis, marDelPlataDestiny, visibilityPublico)
-		service.addVisibility(usuarioLuis, bahiaBlancaDestiny, visibilityPrivado)
-		service.addVisibility(usuarioLuis, barilocheDestiny, visibilityAmigos)
-		service.addVisibility(usuarioLuis, marDelPlataDestiny, queFrio, visibilityPublico)
-		service.addVisibility(usuarioLuis, marDelPlataDestiny, queCalor, visibilityPrivado)
-		service.addVisibility(usuarioLuis, marDelPlataDestiny, queAburrido, visibilityAmigos)
+		service.addVisibility(usuarioLuis, marDelPlataDestiny, VisibilidadPublico)
+		service.addVisibility(usuarioLuis, bahiaBlancaDestiny, VisibilidadPrivado)
+		service.addVisibility(usuarioLuis, barilocheDestiny, VisibilidadAmigos)
+		service.addVisibility(usuarioLuis, marDelPlataDestiny, queFrio, VisibilidadPublico)
+		service.addVisibility(usuarioLuis, marDelPlataDestiny, queCalor, VisibilidadPrivado)
+		service.addVisibility(usuarioLuis, marDelPlataDestiny, queAburrido, VisibilidadAmigos)
 		val perfilLuis = service.stalkear(usuarioPepe, usuarioLuis)
 		val perfilLuis2 = service.stalkear(usuarioPepe, usuarioLuis)
 	}
@@ -269,11 +269,11 @@ class perfilCacheTesting {
 
 		service.addDestiny(usuarioPepe, marDelPlataDestiny)
 		service.addComment(usuarioPepe, marDelPlataDestiny, queFrio)
-		service.addVisibility(usuarioPepe, marDelPlataDestiny, visibilityPrivado)
-		service.addVisibility(usuarioPepe, marDelPlataDestiny, queFrio, visibilityPrivado)
+		service.addVisibility(usuarioPepe, marDelPlataDestiny, VisibilidadPrivado)
+		service.addVisibility(usuarioPepe, marDelPlataDestiny, queFrio, VisibilidadPrivado)
 		var perfilPepe = service.stalkear(usuarioPepe, usuarioPepe)
 		var perfilPepe2 = service.stalkear(usuarioPepe, usuarioPepe)
-		service.addVisibility(usuarioPepe, marDelPlataDestiny, visibilityPrivado)
+		service.addVisibility(usuarioPepe, marDelPlataDestiny, VisibilidadPrivado)
 		var perfilPepeAmigo = service.stalkear(usuarioLuis, usuarioPepe)
 		perfilPepeAmigo = service.stalkear(usuarioLuis, usuarioPepe)
 	}
